@@ -8,20 +8,19 @@ metadata:
   #   app: myapp
 
 spec:
-    containers:
+  containers:
     - name: webapp-container
-      image: httpd:2.4
-      # imagePullPolicy: IfNotPresent
-      restartPolicy: 
+      image: dongrep/static-site
+      imagePullPolicy: Always
       ports:
-        - containerPort: 80
+        - containerPort: 8080
           protocol: TCP
       env:
-        - name: key1-env
+        - name: port
           valueFrom:
             configMapKeyRef:
               name: config
-              key: key1
+              key: port
         - name: secret-env
           valueFrom:
             secretKeyRef:
@@ -31,7 +30,7 @@ spec:
       readinessProbe:
         httpGet:
           path: /
-          port: 80
+          port: 8080
         initialDelaySeconds: 10
         periodSeconds: 5
         failureThreshold: 3
@@ -39,7 +38,7 @@ spec:
       livenessProbe:
         httpGet:
           path: /
-          port: 80
+          port: 8080
         initialDelaySeconds: 10
         periodSeconds: 5
         failureThreshold: 2
@@ -47,6 +46,9 @@ spec:
       startupProbe:
         httpGet:
           path: /
-          port: 80
+          port: 8080
         periodSeconds: 5
         failureThreshold: 10
+
+  imagePullSecrets:
+    - name: dockercred

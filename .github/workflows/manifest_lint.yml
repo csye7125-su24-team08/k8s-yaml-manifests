@@ -1,8 +1,9 @@
+---
 name: 'Manifest-Lint'
 
-on:
+on:  # yamllint disable-line rule:truthy
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   manifest-lint:
@@ -10,16 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     # environment: production
 
-    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    # Use the Bash shell
     defaults:
       run:
         shell: bash
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v3
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Setup YAML-Lint
-      uses: ibiqlik/action-yamllint@v3
+      # Run YAMLLINT on all files
+      - name: Setup YAML-Lint
+        uses: ibiqlik/action-yamllint@v3
